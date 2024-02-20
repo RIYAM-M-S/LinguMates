@@ -51,17 +51,28 @@ background-color: #ddd; /* Placeholder color */
                        
                    }
 
-#edit-btn {
-padding: 10px;
-background-color: #e7e7f0;
-color: rgb(22, 46, 86);
-border: none;
-border-radius: 5px;
-cursor: pointer;
-font-size: 15px;
-}    
 
-#edit-btn:hover {
-background-color: #5bacdf; 
-color: white;
+
+.button-container {
+display: flex;
+gap: 10px; /* Adjust as needed */
+margin-top: 10px; /* Adjust as needed */
+}
+                  
+
+.edit-btn,
+.delete-btn {
+   padding: 10px 20px;
+   background-color: #e7e7f0;
+   color: rgb(22, 46, 86);
+   border: none;
+   border-radius: 5px;
+   cursor: pointer;
+   font-size: 15px;
+}
+
+.edit-btn:hover,
+.delete-btn:hover {
+   background-color: #5bacdf;
+   color: white;
 }
