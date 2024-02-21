@@ -60,8 +60,7 @@ margin-top: 10px; /* Adjust as needed */
 }
                   
 
-.edit-btn,
-.delete-btn {
+.edit-btn,.delete-btn {
    padding: 10px 20px;
    background-color: #e7e7f0;
    color: rgb(22, 46, 86);
@@ -71,8 +70,13 @@ margin-top: 10px; /* Adjust as needed */
    font-size: 15px;
 }
 
-.edit-btn:hover,
-.delete-btn:hover {
+
+.edit-btn:hover {
    background-color: #5bacdf;
    color: white;
 }
+.delete-btn:hover {
+   background-color: red;
+   color: white;
+}
+
