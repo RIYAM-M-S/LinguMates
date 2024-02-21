@@ -34,7 +34,7 @@ opacity: 1;
 .footerContainer {
     margin-top: 200px;
 }
-button{
+.button{
 padding: 10px 20px;
 background-color: #DFF0FE;
 color: #312f3a;
@@ -44,7 +44,7 @@ font-size: 20px;
 transition: all 0.3s;
 margin:50px;
 }
-button:hover{
+.button:hover{
 background-color: #5bacdf;
 color: white; 
 transform: scale(1.1);
