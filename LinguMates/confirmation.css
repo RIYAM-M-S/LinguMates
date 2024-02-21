@@ -52,7 +52,7 @@ border-radius: 50px;
 }
 .content{
     margin: 50px;
-    margin-top: 80px;
+    margin-top: 50px;
     text-align: center;
     font-size: larger;
 }
@@ -76,5 +76,8 @@ a{
   /* Style placeholder text */
   .message-input::placeholder {
     color: #999; /* Change placeholder text color */
+  }
+  p{
+    margin: 20px;
   }
   
