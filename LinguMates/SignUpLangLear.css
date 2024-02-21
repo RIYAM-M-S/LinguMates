@@ -30,7 +30,7 @@ input {
     position: relative;
     padding: 1.7rem 0 0;
     width: 100%;
-    min-height: 109vh !important;
+    min-height: 115vh !important;
     overflow: hidden;
     background-color: var(--backgroundColor);
     display: flex;
