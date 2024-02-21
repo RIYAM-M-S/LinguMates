@@ -32,7 +32,7 @@ img {
     position: relative;
     padding: 1.7rem 0 0;
     width: 100%;
-    min-height: 160vh !important;
+    min-height: 150vh !important;
     overflow: hidden;
     background-color: var(--backgroundColor);
     display: flex;
@@ -280,7 +280,7 @@ border-radius: 300%;
   
 
 .bio-input {
-  bottom: 22%;
+  bottom: 16%;
   background-color: #f0f0f0;
   margin: 10px 0;
   width: 230px;
