@@ -76,7 +76,7 @@ img {
   border-radius: 5px;
   font-size: 20px;
   transition: all 0.3s;
-  margin:5px; 
+  margin:20px; 
    
 }
 
@@ -85,6 +85,7 @@ img {
   color: white; 
   transform: scale(1.1);
   border-radius: 50px; 
+  cursor: pointer;
 }
 
 
@@ -95,7 +96,7 @@ img {
   left: 54%;
   width: 100%;
   transition: 1s 0.7s ease-in-out;
-  max-width: 900px;
+  max-width: 1100px;
   height: 132%;
   z-index: 1;
 
@@ -210,32 +211,42 @@ form.sign-up-form {
 
 
 .file-input  {
-    bottom: 32%;
-    background-color: #f0f0f0;
+    bottom: 3%;
+    /*background-color: #f0f0f0;*/
     margin: 10px 0;
-    width: 179px; /* Set a fixed width for a square shape */
-    height: 180px; /* Set a fixed height for a square shape */
-    border-radius: 20px; /* Adjust the border-radius based on your design */
-    display: grid;
-    grid-template-columns: 15% 85%;
+    width: 179px; 
+    height: 180px; 
+    border-radius: 20px; 
     padding: 0 0.4rem;
     position:relative;
-    margin-left: 365px; /* Add this to move the file input to the right */
+    margin-left: 300px;
 border-radius: 300%;
   }
-  
+  #selected-photo {
+    bottom: 40%;
+    margin: 10px 0;
+    width: 179px;
+    height: 180px;
+    border-radius: 20px;
+    padding: 0 0.4rem;
+    position: relative;
+    border-radius: 300%;}
 
   .file-input input {
     background: none;
     outline: none;
     border: none;
-    line-height: 1;
+    line-height: 0;
     font-weight: 200;
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     color: #333;
-    height: 00%; /* Ensure the input takes full height */
+    top: 900px;
+    position: sticky;
+    width: 300px;
   }
-  
+  #male {
+    color: black !important;
+}
   .file-input input::placeholder   {
     color: #aaa;
     font-weight: 400;
@@ -246,7 +257,7 @@ border-radius: 300%;
     padding-left: 23px;
     line-height: 29px;
     cursor: pointer;
-    width: 200px; /* Adjust the width to your preference, e.g., 90% */
+    width: 200px; 
   }
   
 
@@ -265,7 +276,7 @@ border-radius: 300%;
 
   .file-input .photo-container {
     position: relative;
-    left: 40px; /* Adjust the left property to move the container (and the icon) to the right */
+    left: 40px; 
   }
   
   .file-input i {
@@ -276,6 +287,7 @@ border-radius: 300%;
     font-size: 7rem;
     vertical-align: -.075em;
   }
+  
   
   
 
@@ -290,7 +302,8 @@ border-radius: 300%;
   grid-template-columns: 15% 85%;
   padding: 0 0.4rem;
   position: absolute;
-  margin-left: 73%;
+  margin-left: 58%;
+
 }
 
 .bio-input textarea {
@@ -315,8 +328,41 @@ border-radius: 300%;
 
 .bio-field i {
   text-align: center;
-  line-height: 260px; /* Adjust line-height for vertical alignment */
+  line-height: 260px; 
   color: #acacac;
   transition: 0.5s;
   font-size: 1.1rem;
+}
+
+.input-suffix {
+  position: absolute;
+  right: -15px;
+  top: 60%;
+  transform: translateY(-50%);
+  font-size: 24px;
+  color: #841616;
+}
+
+.input-suffix-bio {
+  position: absolute;
+  right: 207px;
+  top: 105%;
+  transform: translateY(-50%);
+  font-size: 24px;
+  color: #841616;
+}
+
+.error-message{
+  color: darkred; 
+  width: 500px;
+  font-size: small;
+}
+
+.error-message-bio{
+  position: absolute;
+  right: 107px;
+  top: 104%;
+  transform: translateY(-50%);
+  font-size: small;
+  color: #841616;
 }
