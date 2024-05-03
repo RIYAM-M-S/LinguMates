@@ -64,6 +64,7 @@ left: 2%;
   bottom: 19%;
   font-size: 18px;
 }
+ 
 
 .card-description{
   padding: 13%;
@@ -80,7 +81,7 @@ left: 2%;
   border-radius: 5px;
   font-size: 20px;
   transition: all 0.3s;
-  margin:5px;
+  margin:10px;
 }
 .hero-btn:hover{
 background-color: #5bacdf;
@@ -162,4 +163,14 @@ form {
   font-size: 2.2rem;
   color: #45424b;
   margin-bottom: 10px;
+}
+
+.time-load-section {
+  padding: 0px 0 !important; 
+  height: 500px;
+}
+
+.row {
+  height: 5px !important;
+
 }
