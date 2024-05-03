@@ -2,7 +2,7 @@
 session_start();
 
 $host = "localhost";
-$dbname = "381project";
+$dbname = "lingumatesdb";
 $username = "root";
 $password = "";
 
