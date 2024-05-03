@@ -30,7 +30,7 @@ input {
     position: relative;
     padding: 1.7rem 0 0;
     width: 100%;
-    min-height: 115vh !important;
+    min-height: 125vh !important;
     overflow: hidden;
     background-color: var(--backgroundColor);
     display: flex;
@@ -55,7 +55,7 @@ input {
   left: 54%;
   width: 100%;
   transition: 1s 0.7s ease-in-out;
-  max-width: 900px;
+  max-width: 1100px;
   height: 52%;
   z-index: 1;
 
@@ -66,7 +66,7 @@ input {
   align-items: center;
   justify-content: center;
   text-align: center;
-  height: 100%; /* Ensure the content takes up the full height */
+  height: 100%; 
 }
 
 
@@ -100,6 +100,7 @@ form {
   grid-template-columns: 15% 85%;
   padding: 0 0.4rem;
   position: relative;
+  margin-bottom: 20px;
 }
 
 .input-field i {
@@ -135,8 +136,11 @@ form {
   border-radius: 5px;
   font-size: 20px;
   transition: all 0.3s;
-  margin:5px;  
+  margin: 5px;
+  z-index: 1;
+
 }
+
 
 .btn:hover {
   background-color: #5bacdf;
@@ -157,72 +161,89 @@ form {
 }
 
 .file-input  {
-  
-    bottom: 32%;
-    background-color: #f0f0f0;
-    margin: 10px 0;
-    width: 179px; /* Set a fixed width for a square shape */
-    height: 180px; /* Set a fixed height for a square shape */
-    border-radius: 20px; /* Adjust the border-radius based on your design */
-    display: grid;
-    grid-template-columns: 15% 85%;
-    padding: 0 0.4rem;
-    position:relative;
-    margin-left: 365px; /* Add this to move the file input to the right */
+  bottom: 3%;
+  /*background-color: #f0f0f0;*/
+  margin: 10px 0;
+  width: 179px; 
+  height: 180px; 
+  border-radius: 20px; 
+  padding: 0 0.4rem;
+  position:relative;
+  margin-left: 300px;
 border-radius: 300%;
-  }
-  
- 
-  
-  .file-input input {
-    background: none;
-    outline: none;
-    border: none;
-    line-height: 1;
-    font-weight: 200;
-    font-size: 1.1rem;
-    color: #333;
-    height: 00%; /* Ensure the input takes full height */
-  }
-  
-  .file-input input::placeholder   {
-    color: #aaa;
-    font-weight: 400;
-  }
-  
-  .file-input label {
-    display: block;
-    padding-left: 23px;
-    line-height: 29px;
-    cursor: pointer;
-    width: 200px; /* Adjust the width to your preference, e.g., 90% */
-  }
-  
+}
+#selected-photo {
+  bottom: 40%;
+  margin: 10px 0;
+  width: 179px;
+  height: 180px;
+  border-radius: 20px;
+  padding: 0 0.4rem;
+  position: relative;
+  border-radius: 300%;}
 
-  
-  .file-input .profile-info {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .file-input .profile-name {
-    margin-top: 170px;
-    color:var(--darkTwo);
-    font-size: 18px;
-  }
- 
+.file-input input {
+  background: none;
+  outline: none;
+  border: none;
+  line-height: 0;
+  font-weight: 200;
+  font-size: 0.9rem;
+  color: #333;
+  top: 900px;
+  position: sticky;
+  width: 300px;
+}
+#male {
+  color: black !important;
+}
+.file-input input::placeholder   {
+  color: #aaa;
+  font-weight: 400;
+}
 
-  .file-input .photo-container {
-    position: relative;
-    left: 40px; /* Adjust the left property to move the container (and the icon) to the right */
-  }
-  
-  .file-input i {
-    text-align: center;
-    line-height: 180px;
-    color: #acacac;
-    transition: 0.5s;
-    font-size: 7rem;
-    vertical-align: -.075em;
-  }
- 
+.file-input label {
+  display: block;
+  padding-left: 23px;
+  line-height: 29px;
+  cursor: pointer;
+  width: 200px; 
+}
+
+
+
+.file-input .profile-info {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.file-input .profile-name {
+  margin-top: 170px;
+  color: var(--darkTwo);
+  font-size: 18px;
+}
+
+
+.file-input .photo-container {
+  position: relative;
+  left: 40px; 
+}
+
+.file-input i {
+  text-align: center;
+  line-height: 180px;
+  color: #acacac;
+  transition: 0.5s;
+  font-size: 7rem;
+  vertical-align: -.075em;
+}
+
+.input-suffix {
+  position: absolute;
+  right: -15px;
+  top: 60%;
+  transform: translateY(-50%);
+  font-size: 24px;
+  color: #841616;
+}
+
