@@ -2,7 +2,7 @@
 session_start();
 
 $host = "localhost";
-$dbname = "381project";
+$dbname = "lingumatesdb";
 $username = "root";
 $password = "";
 
@@ -192,7 +192,7 @@ if(!$emailExist && empty($errors)){
               
               <div class="file-input">
     <input type="file" id="profile-photo" name="profile-photo" accept="image/*" onchange="previewPhoto(event)" />
-    <img id="selected-photo" src="user.png" alt="Selected photo">
+    <img id="selected-photo" src="images/user.png" alt="Selected photo">
 </div>
 
             </div>
