@@ -227,7 +227,6 @@ if(!$emailExist && empty($errors)){
             </div>
             <div class="bio-input">
     <textarea placeholder="Bio: Languages Spoken and Cultural Knowledge" name="bio"><?php echo htmlspecialchars($bio); ?></textarea>
-   <br><br><br><br><br><br><br>    <br><br><br><br><br>
    <span class="error-message-bio" ><?php echo isset($errors['bio']) ? $errors['bio'] : ''; ?></span>
    <span class="input-suffix-bio">*</span>
 
