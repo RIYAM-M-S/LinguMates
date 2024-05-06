@@ -51,10 +51,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $errors['password'] = "Password is required";
         }
         
-        if (password_verify($_POST["password"], $user["password"])) {
+        if ($password === $user["password"]) {
             $_SESSION["email"] = $_POST["email"];
 
-            // Redirect based on user type
             if ($user_learners) {
                 header("Location: LearnerHP.php");
                 exit;
@@ -83,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <link rel="stylesheet" href="Homepage.css?v=<?php echo time(); ?>">
     <style>
       .error-message{
-        color: darkred; 
+        color: rgb(245, 25, 25);
         font-size: small;
         text-align: center;
         top:1px;
