@@ -106,7 +106,7 @@ form {
 .input-field i {
   text-align: center;
   line-height: 55px;
-  color: #acacac;
+  color: #aaa;
   transition: 0.5s;
   font-size: 1.1rem;
 }
@@ -124,7 +124,7 @@ form {
 
 
 .input-field ::placeholder {
-  color: #aaa;
+  color: #312f3a;
   font-weight: 400;
 }
 
@@ -244,6 +244,6 @@ border-radius: 300%;
   top: 60%;
   transform: translateY(-50%);
   font-size: 24px;
-  color: #841616;
+  color: rgb(245, 25, 25);
 }
 
