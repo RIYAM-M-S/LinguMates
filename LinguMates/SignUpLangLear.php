@@ -98,9 +98,8 @@ if (empty($location)) {
   }
 
 if(!$emailExist && empty($errors)){ 
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
     $stmt = $mysqli->prepare("INSERT INTO learners (firstName, lastName, email, password, photo,city, location) VALUES (?, ?, ?,?, ?, ?, ?)");
-    $stmt->bind_param("sssssss", $firstName, $lastName, $email, $hashedPassword, $file_name,$city, $location);
+    $stmt->bind_param("sssssss", $firstName, $lastName, $email, $password, $file_name,$city, $location);
 
     if ($stmt->execute()) {
       $_SESSION["email"] = $_POST["email"];
@@ -132,7 +131,7 @@ if(!$emailExist && empty($errors)){
 
     <style>
       .error-message{
-        color: darkred; 
+        color: red; 
         width: 500px;
         font-size: small;
       }
