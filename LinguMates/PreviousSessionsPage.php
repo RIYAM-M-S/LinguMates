@@ -95,8 +95,7 @@ session_start();
                                     <th>Date</th>
                                     <th>Time</th>
                                     <th>Learner</th>
-                                    <th>Review</th>
-                                    <th>Rating</th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -108,45 +107,6 @@ session_start();
                                         <td><?= htmlspecialchars($rowSession['scheduledTime']); ?></td>
                                         <td><?= htmlspecialchars($rowSession['duration']); ?></td>
                                         <td><?= htmlspecialchars($rowSession['firstName'] . ' ' . $rowSession['lastName']); ?></td>
-                                        <td>
-                                            <?php 
-                                            $sessionID = $rowSession['sessionID'];
-                                            $queryReview = "SELECT * FROM reviews_ratings WHERE sessionID = ?";
-                                            $stmtReview = $mysqli->prepare($queryReview);
-                                            if ($stmtReview) {
-                                                $stmtReview->bind_param("i", $sessionID);
-                                                $stmtReview->execute();
-                                                $resultReview = $stmtReview->get_result();
-                                                if ($resultReview && $resultReview->num_rows > 0) {
-                                                    $rowReview = $resultReview->fetch_assoc();
-                                                    echo htmlspecialchars($rowReview['review']);
-                                                    $rating = $rowReview['rating']; // Fetch the rating from the database
-                                                } else {
-                                                    echo "Waiting for review";
-                                                    $rating = 0; // Initialize rating
-                                                }
-                                                $stmtReview->close();
-                                            }
-                                            ?>
-                                        </td>
-                                        <td>
-    <?php 
-    // Check if 'stars' key exists in $rowReview array
-    if (isset($rowReview['rating'])) {
-        $rating = $rowReview['rating']; // Fetch the rating from the database
-        // Display stars based on the rating
-        for ($i = 1; $i <= 5; $i++) {
-            if ($i <= $rating) {
-                echo '<i class="fa-solid fa-star" style="color: #FFD43B;"></i>'; // Filled star
-            } else {
-                echo '<i class="fa-regular fa-star" style="color: #FFD43B;"></i>'; // Empty star
-            }
-        }
-    } else {
-        echo "Waiting for rating";
-    }
-    ?>
-</td>
 
                                         </td>
                                     </tr>
