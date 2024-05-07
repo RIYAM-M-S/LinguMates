@@ -32,7 +32,7 @@ img {
     position: relative;
     padding: 1.7rem 0 0;
     width: 100%;
-    min-height: 150vh !important;
+    min-height: 200vh !important;
     overflow: hidden;
     background-color: var(--backgroundColor);
     display: flex;
@@ -91,13 +91,13 @@ img {
 
 .signin-signup {
   position: relative;
-  top: 49%;
+  top: 63%;
   transform: translate(-50%, -50%);
   left: 54%;
   width: 100%;
   transition: 1s 0.7s ease-in-out;
   max-width: 1100px;
-  height: 132%;
+  height: 125%;
   z-index: 1;
 
 }
@@ -145,7 +145,8 @@ form {
     grid-column: 1 / 2;
     grid-row: 1 / 2;
     position: relative;
-    top: -20%;
+    top: -43%;
+    height: 190%;
   }
 
 form.sign-up-form {
@@ -171,7 +172,7 @@ form.sign-up-form {
   position: relative;
 }
 
-.input-field i {
+.input-field i ,.ckeck-box i {
   text-align: center;
   line-height: 55px;
   color: #acacac;
@@ -211,7 +212,7 @@ form.sign-up-form {
 
 
 .file-input  {
-    bottom: 3%;
+    bottom: 38%;
     /*background-color: #f0f0f0;*/
     margin: 10px 0;
     width: 179px; 
@@ -244,9 +245,10 @@ border-radius: 300%;
     position: sticky;
     width: 300px;
   }
-  #male {
-    color: black !important;
+  .selected {
+    color: black;
 }
+
   .file-input input::placeholder   {
     color: #aaa;
     font-weight: 400;
@@ -292,7 +294,7 @@ border-radius: 300%;
   
 
 .bio-input {
-  bottom: 16%;
+  bottom: 36%;
   background-color: #f0f0f0;
   margin: 10px 0;
   width: 230px;
@@ -340,7 +342,7 @@ border-radius: 300%;
   top: 60%;
   transform: translateY(-50%);
   font-size: 24px;
-  color: #841616;
+  color: rgb(245, 25, 25);
 }
 
 .input-suffix-bio {
@@ -349,12 +351,12 @@ border-radius: 300%;
   top: 105%;
   transform: translateY(-50%);
   font-size: 24px;
-  color: #841616;
+  color: rgb(245, 25, 25);
 }
 
 .error-message{
-  color: darkred; 
-  width: 500px;
+  color: rgb(245, 25, 25);
+  width: 300px;
   font-size: small;
 }
 
@@ -364,5 +366,109 @@ border-radius: 300%;
   top: 104%;
   transform: translateY(-50%);
   font-size: small;
-  color: #841616;
+  color: rgb(245, 25, 25);
+  
 }
+
+.error-message-check{
+  position: absolute;
+  right: -43px;
+  top: 105.7%;
+  transform: translateY(-50%);
+  font-size: small;
+  color: rgb(245, 25, 25);
+  width: 300px;
+}
+
+.message-check{
+  position: absolute;
+  right: 15px;
+  top: 92%;
+  transform: translateY(-50%);
+  font-size: 11px;
+  color: #333;
+  width: 242px;
+  text-align: left;
+  z-index: 2;
+  
+}
+.input-suffix-check {
+  position: absolute;
+  right: 239px;
+  top: 107%;
+  transform: translateY(-50%);
+  font-size: 24px;
+  color: rgb(245, 25, 25);
+}
+
+
+.ckeck-box {
+  bottom: 7%;
+  background-color: #f0f0f0;
+  width: 270px;
+  height: 310px;
+  border-radius: 20px;
+  position: absolute;
+  margin-left: 58%;
+  text-align: center;
+}
+
+
+.ckeck-box input[type="checkbox"] {
+  margin: 5px;
+  appearance: none; /* Hide the default checkbox */
+}
+
+.ckeck-box input[type="checkbox"] + label {
+  font-size: 1.1rem;
+  margin: 0px;
+  color: #aaa; 
+}
+
+.ckeck-box input[type="checkbox"]:checked + label {
+  color: #333; }
+
+label[for="language"] {
+  color: #aaa;
+  font-weight: 400;
+
+}
+
+
+.ckeck-box .language-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.ckeck-box .language-row select {
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 55px;
+  padding: 0 0.4rem;
+  height: 100%;
+  font-size: 1.1rem;
+  color: #aaa;
+  font-weight: 400;
+  outline: none;
+  margin-left: 10px;
+}
+
+.ckeck-box .language-row select::placeholder {
+  color: #aaa;
+  font-weight: 800;
+}
+
+.ckeck-box .language-row select:hover,
+.ckeck-box .language-row select:focus {
+  background-color: #d3d1d1;
+}
+
+.ckeck-box .language-row select option {
+  background-color: #f0f0f0;
+  color: var(--darkTwo);
+  font-weight: 400;
+  border-radius: 20px;
+}
+
+
