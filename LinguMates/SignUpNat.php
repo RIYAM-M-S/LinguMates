@@ -19,7 +19,7 @@ $city = '';
 $age = '';
 $gender = '';
 $bio = '';
-$phone = '';
+$phone = $price = $languages='';
 
 
 $emailExist = false;
@@ -33,6 +33,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $gender = isset($_POST['gender']) ? $mysqli->real_escape_string($_POST['gender']) : '';
   $phone =  $mysqli->real_escape_string($_POST["phone"]);
   $bio = isset($_POST['bio']) ? $_POST['bio'] : '';
+  $price = isset($_POST["price"]) ? $_POST["price"] : '';
+  $languages = isset($_POST['languages']) ? $_POST['languages'] : [];
+  $proficiencies = [];
 
   $file_name = isset($_FILES['profile-photo']['name']) ? $_FILES['profile-photo']['name'] : 'user.png';
   $tempname = isset($_FILES['profile-photo']['tmp_name']) ? $_FILES['profile-photo']['tmp_name'] : '';
@@ -44,6 +47,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   
 
   $errors = [];
+
+foreach ($languages as $language) {
+    $proficiency = isset($_POST[$language . 'Proficiency']) ? $_POST[$language . 'Proficiency'] : '';
+    if (empty($proficiency)) {
+        $proficiency = 'advanced';
+    }
+    $proficiencies[$language] = $proficiency;
+}
+    
+
+  if (empty($price)) {
+    $errors['price'] = "Price is required";
+} elseif (!is_numeric($price) || $price < 0 || $price > 30) {
+    $errors['price'] = "Price should be a positive number not more than 30";
+}
+
+  if (empty($_POST['languages'])) {
+      $errors['languages'] = "At least one language must be selected";
+  }
 
   $firstName = trim($_POST["firstName"]);
   if (empty($firstName)) {
@@ -73,13 +95,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       $errors['password'] = "Password must be at least 8 characters long";
   }
 
-$phone = trim($_POST["phone"]);
-if (empty($phone)) {
-  $errors['phone'] = "Phone number is required";}
-
-   elseif (!preg_match("/^\d{10}$/", $phone)) {
-   $errors['phone'] = "Please enter a 10-digit number only.";
-    }
+  $phone = trim($_POST["phone"]);
+  if (empty($phone)) {
+      $errors['phone'] = "Phone number is required";
+  } elseif (!preg_match("/^\d{3}-\d{8}$/", $phone)) {
+      $errors['phone'] = "Enter phone as XXX-XXXXXXXX.";
+  }
+  
 
 
 
@@ -97,7 +119,7 @@ if (empty($phone)) {
   if (empty($age)) {
     $errors['age'] = "Age is required";}
   elseif (!is_numeric($age) || $age <= 0 || $age >100) {
-      $errors['age'] = "Invalid age";
+      $errors['age'] = "Age should be less than or equal to 100";
   }
 
   if (isset($_POST["gender"])) {
@@ -122,21 +144,32 @@ if (empty($phone)) {
 
   }
 
-if(!$emailExist && empty($errors)){ 
-  $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-  $stmt = $mysqli->prepare("INSERT INTO languagepartners (firstName, lastName, age, gender, email, password, phone,photo, city, bio) VALUES (?, ?, ?,?, ?, ?, ?, ?, ?, ?)");
-  if ($stmt) {
-      $stmt->bind_param("ssisssssss", $firstName, $lastName, $age, $gender, $email, $hashedPassword, $phone, $file_name, $city, $bio);
+  if(!$emailExist && empty($errors)) { 
+    $stmt = $mysqli->prepare("INSERT INTO languagepartners (firstName, lastName, age, gender, email, password, phone, photo, city, bio, sessionPricePerHour) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    if ($stmt) {
+        $stmt->bind_param("ssisssssssi", $firstName, $lastName, $age, $gender, $email, $password, $phone, $file_name, $city, $bio, $price);
+        if ($stmt->execute()) {
+            $partnerID = $mysqli->insert_id;
 
-      if ($stmt->execute()) {
-        $_SESSION["email"] = $_POST["email"];
-        header("Location: NS_homepage.php");
-          exit();
-      } else {
-          header("Location: SignUpNat.php");
-          exit(); 
-      }
-  }}
+            $stmt = $mysqli->prepare("INSERT INTO partner_languages (partnerID, partner_email, language, proficiency) VALUES (?, ?, ?, ?)");
+            if ($stmt) {
+                foreach ($proficiencies as $language => $proficiency) {
+                    $stmt->bind_param("isss", $partnerID, $email, $language, $proficiency);
+                    $stmt->execute();
+                }
+            }
+
+            $_SESSION["email"] = $_POST["email"];
+            header("Location: NS_homepage.php");
+            exit();
+        } else {
+            header("Location: SignUpNat.php");
+            exit(); 
+        }
+    }
+}
+
+
 
 }
 ?>
@@ -221,7 +254,7 @@ if(!$emailExist && empty($errors)){
 
             <div class="input-field">
               <i class="fa-solid fa-phone"></i>              
-              <input type="text" placeholder="Phone Number" name="phone" value="<?php echo htmlspecialchars($phone); ?>">
+              <input type="text" placeholder="Phone(XXX-XXXXXXXX)" name="phone" value="<?php echo htmlspecialchars($phone); ?>">
               <span class="input-suffix">*</span>
               <span class="error-message" ><?php echo isset($errors['phone']) ? $errors['phone'] : ''; ?></span>
             </div>
@@ -231,21 +264,87 @@ if(!$emailExist && empty($errors)){
    <span class="input-suffix-bio">*</span>
 
 </div>
+<div class="ckeck-box">
+    <i class="fa-solid fa-language"></i>
+    <label for="language">Select languages to teach.</label>
 
-            <div class="input-field">
+<div class="language-row">
+    <input type="checkbox" id="English" name="languages[]" value="English" <?php echo isset($_POST['languages']) && in_array('English', $_POST['languages']) ? 'checked' : ''; ?>>
+    <label for="English">English</label>
+    <select id="EnglishProficiency" name="EnglishProficiency">
+        <option value="" disabled <?php echo empty($_POST['languages']) || !in_array('English', $_POST['languages']) ? 'selected' : ''; ?>>Select Proficiency</option>
+        <option value="advanced" <?php echo isset($_POST['englishProficiency']) && $_POST['englishProficiency'] === 'advanced' ? 'selected' : ''; ?>>Advanced</option>
+        <option value="Expert" <?php echo isset($_POST['englishProficiency']) && $_POST['englishProficiency'] === 'Expert' ? 'selected' : ''; ?>>Expert</option>
+    </select>
+</div>
+
+<div class="language-row">
+    <input type="checkbox" id="Spanish" name="languages[]" value="Spanish" <?php echo isset($_POST['languages']) && in_array('Spanish', $_POST['languages']) ? 'checked' : ''; ?>>
+    <label for="Spanish">Spanish</label>
+    <select id="SpanishProficiency" name="SpanishProficiency">
+        <option value="" disabled <?php echo empty($_POST['languages']) || !in_array('Spanish', $_POST['languages']) ? 'selected' : ''; ?>>Select Proficiency</option>
+        <option value="advanced" <?php echo isset($_POST['spanishProficiency']) && $_POST['spanishProficiency'] === 'advanced' ? 'selected' : ''; ?>>Advanced</option>
+        <option value="Expert" <?php echo isset($_POST['spanishProficiency']) && $_POST['spanishProficiency'] === 'Expert' ? 'selected' : ''; ?>>Expert</option>
+    </select>
+</div>
+
+<div class="language-row">
+    <input type="checkbox" id="French" name="languages[]" value="French" <?php echo isset($_POST['languages']) && in_array('French', $_POST['languages']) ? 'checked' : ''; ?>>
+    <label for="French">French</label>
+    <select id="FrenchProficiency" name="FrenchProficiency">
+        <option value="" disabled <?php echo empty($_POST['languages']) || !in_array('French', $_POST['languages']) ? 'selected' : ''; ?>>Select Proficiency</option>
+        <option value="advanced" <?php echo isset($_POST['frenchProficiency']) && $_POST['frenchProficiency'] === 'advanced' ? 'selected' : ''; ?>>Advanced</option>
+        <option value="Expert" <?php echo isset($_POST['frenchProficiency']) && $_POST['frenchProficiency'] === 'Expert' ? 'selected' : ''; ?>>Expert</option>
+    </select>
+</div>
+
+<div class="language-row">
+    <input type="checkbox" id="German" name="languages[]" value="German" <?php echo isset($_POST['languages']) && in_array('German', $_POST['languages']) ? 'checked' : ''; ?>>
+    <label for="German">German</label>
+    <select id="GermanProficiency" name="GermanProficiency">
+        <option value="" disabled <?php echo empty($_POST['languages']) || !in_array('German', $_POST['languages']) ? 'selected' : ''; ?>>Select Proficiency</option>
+        <option value="advanced" <?php echo isset($_POST['germanProficiency']) && $_POST['germanProficiency'] === 'advanced' ? 'selected' : ''; ?>>Advanced</option>
+        <option value="Expert" <?php echo isset($_POST['germanProficiency']) && $_POST['germanProficiency'] === 'Expert' ? 'selected' : ''; ?>>Expert</option>
+    </select>
+</div>
+
+<div class="language-row">
+    <input type="checkbox" id="Italian" name="languages[]" value="Italian" <?php echo isset($_POST['languages']) && in_array('Italian', $_POST['languages']) ? 'checked' : ''; ?>>
+    <label for="Italian">Italian</label>
+    <select id="ItalianProficiency" name="ItalianProficiency">
+        <option value="" disabled <?php echo empty($_POST['languages']) || !in_array('Italian', $_POST['languages']) ? 'selected' : ''; ?>>Select Proficiency</option>
+        <option value="advanced" <?php echo isset($_POST['italianProficiency']) && $_POST['italianProficiency'] === 'advanced' ? 'selected' : ''; ?>>Advanced</option>
+        <option value="Expert" <?php echo isset($_POST['italianProficiency']) && $_POST['italianProficiency'] === 'Expert' ? 'selected' : ''; ?>>Expert</option>
+    </select>
+</div>
+
+<div class="language-row">
+    <input type="checkbox" id="Arabic" name="languages[]" value="Arabic" <?php echo isset($_POST['languages']) && in_array('Arabic', $_POST['languages']) ? 'checked' : ''; ?>>
+    <label for="Arabic">Arabic</label>
+    <select id="ArabicProficiency" name="ArabicProficiency">
+        <option value="" disabled <?php echo empty($_POST['languages']) || !in_array('Arabic', $_POST['languages']) ? 'selected' : ''; ?>>Select Proficiency</option>
+        <option value="advanced" <?php echo isset($_POST['arabicProficiency']) && $_POST['arabicProficiency'] === 'advanced' ? 'selected' : ''; ?>>Advanced</option>
+        <option value="Expert" <?php echo isset($_POST['arabicProficiency']) && $_POST['arabicProficiency'] === 'Expert' ? 'selected' : ''; ?>>Expert</option>
+    </select>
+</div>
+
+    <span class="input-suffix-check">*</span>
+    <span class="error-message-check"><?php echo isset($errors['languages']) ? $errors['languages'] : ''; ?></span>
+    <span class="message-check"> Note: If no proficiency level is selected, 'Advanced' will be chosen automatically.</span>
+</div>
+
+
+
+<div class="input-field">
     <i class="fa-solid fa-venus-mars"></i>
-    <select id="Gender" name="gender" >
+    <select id="Gender" name="gender" class="<?php echo isset($gender) && !empty($gender) ? 'selected' : ''; ?>">
         <option value="" disabled <?php echo empty($gender) ? 'selected' : ''; ?>>Select Gender</option>
-        <option id ="male" value="Male" <?php echo $gender === 'Male' ? 'selected' : ''; ?>>Male</option>
+        <option id="male" value="Male" <?php echo $gender === 'Male' ? 'selected' : ''; ?>>Male</option>
         <option value="Female" <?php echo $gender === 'Female' ? 'selected' : ''; ?>>Female</option>
     </select>
     <span class="input-suffix">*</span>
     <span class="error-message"><?php echo isset($errors['gender']) ? $errors['gender'] : ''; ?></span>
 </div>
-
-
-
-
 
             <div class="input-field">
               <i class="fa-solid fa-city"></i>  
@@ -260,6 +359,14 @@ if(!$emailExist && empty($errors)){
               <span class="input-suffix">*</span>
               <span class="error-message" ><?php echo isset($errors['age']) ? $errors['age'] : ''; ?></span>
             </div>
+
+            <div class="input-field">
+            <i class="fa-solid fa-money-bill"></i>
+              <input id="price" type="text" placeholder="Price per hour" name="price" value="<?php echo htmlspecialchars($price); ?>">
+              <span class="input-suffix">*</span>
+              <span class="error-message" ><?php echo isset($errors['price']) ? $errors['price'] : ''; ?></span>
+            </div>
+
 
             <input type="submit" name="submit" value="Sign up" class="btn" />
 
@@ -312,7 +419,70 @@ if(!$emailExist && empty($errors)){
         reader.readAsDataURL(input.files[0]);
     }
 </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#Gender').css('color', '#aaa');
+    $('#Gender').change(function() {
+        var current = $('#Gender').val();
+        if (current != '') {
+            $('#Gender').css('color', '#333');
+        } else {
+            $('#Gender').css('color', '#aaa');
+        }
+    });
+});
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#Gender').change(function() {
+            $(this).toggleClass('selected', $(this).val() !== '');
+        });
+    });
+
+    $(document).ready(function() {
+    $('input[name="languages[]"]').each(function() {
+        var language = $(this).val();
+        $('#' + language + 'Proficiency').hide();
+    });
+
+    $('input[name="languages[]"]').change(function() {
+        var language = $(this).val();
+        var proficiencyInput = $('#' + language + 'Proficiency');
+        if ($(this).is(':checked')) {
+            proficiencyInput.show();
+        } else {
+            proficiencyInput.hide();
+        }
+    });
+});
+
+$(document).ready(function() {
+    $('select[name$="Proficiency"]').each(function() {
+        var current = $(this).val();
+        if (current !== '') {
+            $(this).css('color', '#333');
+        } else {
+            $(this).css('color', '#aaa');
+        }
+        $(this).change(function() {
+            var current = $(this).val();
+            if (current !== '') {
+                $(this).css('color', '#333');
+            } else {
+                $(this).css('color', '#aaa');
+            }
+        });
+    });
+});
+
+
+</script>
+
+
+
 
   </body>
 </html>
-            
